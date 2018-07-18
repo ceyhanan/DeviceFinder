@@ -87,11 +87,11 @@ public class Broadcaster implements Runnable {
 
         model.setRowCount(0);
         for (int i = 0; i < deviceList.size(); i++) {
-            model.addRow(new Object[]{deviceList.get(i).hostName,
-                deviceList.get(i).device_ip,
-                deviceList.get(i).device_port,
-                deviceList.get(i).remote_ip,
-                deviceList.get(i).remote_port});
+            model.addRow(new Object[]{deviceList.get(i).localparams.DeviceHostName,
+                deviceList.get(i).localparams.IP,
+                deviceList.get(i).socketparams.HostPort,
+                deviceList.get(i).socketparams.RemoteIP,
+                deviceList.get(i).socketparams.RemotePort});
         }
     }
 
@@ -108,7 +108,7 @@ public class Broadcaster implements Runnable {
             try {
                 serverSocket.receive(receivePacket);
                 if (checkPacket(receivePacket)) {
-                    Device device = new Device(new String(Arrays.copyOfRange(receivePacket.getData(), 26, 42)),
+                    Device device = new Device(Arrays.copyOfRange(receivePacket.getData(), 26, 42),
                             InetAddress.getByAddress(Arrays.copyOfRange(receivePacket.getData(), 78, 82)),
                             InetAddress.getByAddress(Arrays.copyOfRange(receivePacket.getData(), 106, 110)),
                             (receiveData[102] & 0xff) | ((receiveData[103] & 0xff) << 8),
@@ -116,7 +116,7 @@ public class Broadcaster implements Runnable {
                             Arrays.copyOfRange(receivePacket.getData(), 10, 16));
                     if (deviceList.size() > 0) {
                         for (i = 0; i < deviceList.size(); i++) {
-                            if (Arrays.equals(deviceList.get(i).mac, device.mac)) {
+                            if (Arrays.equals(deviceList.get(i).localparams.MAC, device.localparams.MAC)) {
                                 deviceList.set(i, device);
                                 isInList = true;
                                 updataGUIList();
