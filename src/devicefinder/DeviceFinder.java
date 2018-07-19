@@ -83,11 +83,11 @@ public class DeviceFinder extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Host Name", "Device IP", "Device Port", "Remote IP", "Remote Port"
+                "Host Name", "Device IP", "Device Port", "Remote IP", "Remote Port", "Latency"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

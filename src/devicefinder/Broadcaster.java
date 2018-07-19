@@ -27,11 +27,13 @@ public class Broadcaster implements Runnable {
     private final Thread thread;
     LinkedList<Device> deviceList;
     int activeDevice;
+    long beginTime;
 
     public Broadcaster() throws IOException {
         receiveData = new byte[250];
         deviceList = new LinkedList<>();
         thread = new Thread(this);
+        beginTime = System.currentTimeMillis();
         broadcast();
     }
 
@@ -95,7 +97,8 @@ public class Broadcaster implements Runnable {
                 InetAddress.getByAddress(deviceList.get(i).localparams.IP),
                 deviceList.get(i).socketparams.HostPort,
                 InetAddress.getByAddress(deviceList.get(i).socketparams.RemoteIP),
-                deviceList.get(i).socketparams.RemotePort});
+                deviceList.get(i).socketparams.RemotePort,
+            Long.toUnsignedString(deviceList.get(i).latency) + "ms"});
         }
     }
 
@@ -209,6 +212,7 @@ public class Broadcaster implements Runnable {
                 serverSocket.receive(receivePacket);
                 if (checkPacket(receivePacket)) {
                     Device device = new Device(receivePacket);
+                    device.setDeviceLatency(System.currentTimeMillis() - beginTime);
                     if (deviceList.size() > 0) {
                         for (i = 0; i < deviceList.size(); i++) {
                             if (Arrays.equals(deviceList.get(i).localparams.MAC, device.localparams.MAC)) {

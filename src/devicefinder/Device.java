@@ -32,6 +32,7 @@ public class Device {
     private byte[] SmartPackTxFrame;
     public LocalParameters localparams;
     public SocketParameters socketparams;
+    long latency;
 
     public final int SmartCommand_WHOIS = 0x0000;
     public final int SmartCommand_GET_SERIALTOETHERNETCONFIG = 0x0005;
@@ -229,5 +230,13 @@ public class Device {
         socketparams._SmartPackCommandParameters[11] = socketparams.RemoteIP[3];
         
         sendCommand(socketparams._SmartPackCommandParameters, SmartCommand_F_SETSOCKETS);
+    }
+    
+    public void setDeviceLatency(long value){
+        latency = value;
+    }
+    
+    public long getDeviceLatency(){
+        return latency;
     }
 }
