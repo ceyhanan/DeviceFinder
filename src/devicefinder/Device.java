@@ -28,7 +28,7 @@ public class Device {
     byte[] mac;
      */
     private DatagramSocket socket = null;
-    private DatagramPacket packet;
+    private DatagramPacket packet, packet1;
     private byte[] SmartPackTxFrame;
     public LocalParameters localparams;
     public SocketParameters socketparams;
@@ -111,6 +111,7 @@ public class Device {
     
     private void sendCommand(byte[] payload, int command){
         byte[] SmartPackHeader = new byte[12];
+        byte[] receiveData = new byte[11];
         
         SmartPackHeader[0] = (byte) '*';
         SmartPackHeader[1] = (byte) 's';
@@ -146,6 +147,13 @@ public class Device {
             socket.send(packet);
         } catch (Exception ex) {
             System.out.println("sendCommand: Error sending packet: " + ex);
+        }
+        try{
+            packet1 = new DatagramPacket(receiveData, receiveData.length);
+            socket.receive(packet1);
+        }
+        catch(Exception ex){
+            System.out.println("sendCommand error: " + ex);
         }
     }
 
