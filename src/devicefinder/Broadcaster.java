@@ -28,7 +28,7 @@ public class Broadcaster implements Runnable {
     LinkedList<Device> deviceList;
     int activeDevice;
 
-    public Broadcaster() throws IOException{
+    public Broadcaster() throws IOException {
         receiveData = new byte[250];
         deviceList = new LinkedList<>();
         thread = new Thread(this);
@@ -86,7 +86,7 @@ public class Broadcaster implements Runnable {
         return packet.getLength() == 203;
     }
 
-    public void updataGUIList() throws UnknownHostException {
+    public void updateGUIList() throws UnknownHostException {
         DefaultTableModel model = (DefaultTableModel) DeviceFinder.jDeviceList.getModel();
 
         model.setRowCount(0);
@@ -98,70 +98,101 @@ public class Broadcaster implements Runnable {
                 deviceList.get(i).socketparams.RemotePort});
         }
     }
-    
-    public void setActiveDevice(int num){
+
+    public void setActiveDevice(int num) {
         String str;
         activeDevice = num;
         Device tmpdevice;
-        
-        try{
-            tmpdevice = deviceList.get(num);
-            
-            str = String.format("%d", (int)tmpdevice.localparams.IP[0] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.IP[1] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.IP[2] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.IP[3] & 0xFF);
+
+        try {
+            tmpdevice = deviceList.get(activeDevice);
+
+            str = String.format("%d", (int) tmpdevice.localparams.IP[0] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.IP[1] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.IP[2] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.IP[3] & 0xFF);
             DeviceFinder.setIPText(str);
-            
-            str = String.format("%d", (int)tmpdevice.localparams.GatewayIP[0] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.GatewayIP[1] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.GatewayIP[2] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.GatewayIP[3] & 0xFF);
+
+            str = String.format("%d", (int) tmpdevice.localparams.GatewayIP[0] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.GatewayIP[1] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.GatewayIP[2] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.GatewayIP[3] & 0xFF);
             DeviceFinder.setGatewayText(str);
-            
-            str = String.format("%d", (int)tmpdevice.localparams.SubnetMask[0] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.SubnetMask[1] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.SubnetMask[2] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.SubnetMask[3] & 0xFF);
+
+            str = String.format("%d", (int) tmpdevice.localparams.SubnetMask[0] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.SubnetMask[1] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.SubnetMask[2] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.SubnetMask[3] & 0xFF);
             DeviceFinder.setSubnetText(str);
-            
-            str = String.format("%d", (int)tmpdevice.localparams.PrimaryDNS[0] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.PrimaryDNS[1] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.PrimaryDNS[2] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.PrimaryDNS[3] & 0xFF);
+
+            str = String.format("%d", (int) tmpdevice.localparams.PrimaryDNS[0] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.PrimaryDNS[1] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.PrimaryDNS[2] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.PrimaryDNS[3] & 0xFF);
             DeviceFinder.setDNS1Text(str);
-            
-            str = String.format("%d", (int)tmpdevice.localparams.SecondaryDNS[0] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.SecondaryDNS[1] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.SecondaryDNS[2] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.localparams.SecondaryDNS[3] & 0xFF);
+
+            str = String.format("%d", (int) tmpdevice.localparams.SecondaryDNS[0] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.SecondaryDNS[1] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.SecondaryDNS[2] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.localparams.SecondaryDNS[3] & 0xFF);
             DeviceFinder.setDNS2Text(str);
-            
-            str = String.format("%02X", (int)tmpdevice.localparams.MAC[0] & 0xFF);
-            str += "-" + String.format("%02X", (int)tmpdevice.localparams.MAC[1] & 0xFF);
-            str += "-" + String.format("%02X", (int)tmpdevice.localparams.MAC[2] & 0xFF);
-            str += "-" + String.format("%02X", (int)tmpdevice.localparams.MAC[3] & 0xFF);
-            str += "-" + String.format("%02X", (int)tmpdevice.localparams.MAC[4] & 0xFF);
-            str += "-" + String.format("%02X", (int)tmpdevice.localparams.MAC[5] & 0xFF);
+
+            str = String.format("%02X", (int) tmpdevice.localparams.MAC[0] & 0xFF);
+            str += "-" + String.format("%02X", (int) tmpdevice.localparams.MAC[1] & 0xFF);
+            str += "-" + String.format("%02X", (int) tmpdevice.localparams.MAC[2] & 0xFF);
+            str += "-" + String.format("%02X", (int) tmpdevice.localparams.MAC[3] & 0xFF);
+            str += "-" + String.format("%02X", (int) tmpdevice.localparams.MAC[4] & 0xFF);
+            str += "-" + String.format("%02X", (int) tmpdevice.localparams.MAC[5] & 0xFF);
             DeviceFinder.setMACText(str);
-            
+
             str = String.format("%d", tmpdevice.socketparams.HostPort);
-            DeviceFinder.setPort(str);
-            
-            str = String.format("%d", (int)tmpdevice.socketparams.RemoteIP[0] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.socketparams.RemoteIP[1] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.socketparams.RemoteIP[2] & 0xFF);
-            str += "." + String.format("%d", (int)tmpdevice.socketparams.RemoteIP[3] & 0xFF);
-            DeviceFinder.setRemoteIP(str);
-            
+            DeviceFinder.setPortText(str);
+
+            str = String.format("%d", (int) tmpdevice.socketparams.RemoteIP[0] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.socketparams.RemoteIP[1] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.socketparams.RemoteIP[2] & 0xFF);
+            str += "." + String.format("%d", (int) tmpdevice.socketparams.RemoteIP[3] & 0xFF);
+            DeviceFinder.setRemoteIPText(str);
+
             str = String.format("%d", tmpdevice.socketparams.RemotePort);
-            DeviceFinder.setRemotePort(str);
-            
+            DeviceFinder.setRemotePortText(str);
+
             str = new String(tmpdevice.localparams.DeviceHostName);
             DeviceFinder.setHostnameText(str);
+        } catch (Exception e) {
+            System.out.println("setActiveDevice error: " + e);
         }
-        catch(Exception e){
-            
+    }
+
+    public void saveLocalParams2Device() {
+        Device tmpdevice;
+
+        try {
+            tmpdevice = deviceList.get(activeDevice);
+
+            tmpdevice.localparams.SubnetMask = InetAddress.getByName(DeviceFinder.getSubnetText()).getAddress();
+            tmpdevice.localparams.GatewayIP = InetAddress.getByName(DeviceFinder.getGatewayText()).getAddress();
+            tmpdevice.localparams.PrimaryDNS = InetAddress.getByName(DeviceFinder.getDNS1Text()).getAddress();
+            tmpdevice.localparams.SecondaryDNS = InetAddress.getByName(DeviceFinder.getDNS2Text()).getAddress();
+
+            tmpdevice.changeIP(InetAddress.getByName(DeviceFinder.getIPText()));
+        } catch (Exception e) {
+            System.out.println("saveLocalParams2Device error: " + e);
+        }
+    }
+
+    public void saveSocketParams2Device() {
+        Device tmpdevice;
+
+        try {
+            tmpdevice = deviceList.get(activeDevice);
+
+            tmpdevice.socketparams.HostPort = Integer.parseUnsignedInt(DeviceFinder.getPortText());
+            tmpdevice.socketparams.RemotePort = Integer.parseUnsignedInt(DeviceFinder.getRemotePortText());
+
+            tmpdevice.changeRemoteIP(InetAddress.getByName(DeviceFinder.getRemoteIPText()));
+        } catch (Exception e) {
+            System.out.println("saveSocketParams2Device error: " + e);
         }
     }
 
@@ -183,17 +214,17 @@ public class Broadcaster implements Runnable {
                             if (Arrays.equals(deviceList.get(i).localparams.MAC, device.localparams.MAC)) {
                                 deviceList.set(i, device);
                                 isInList = true;
-                                updataGUIList();
+                                updateGUIList();
                                 break;
                             }
                         }
                     }
                     if (isInList == false) {
                         deviceList.add(device);
-                        updataGUIList();
+                        updateGUIList();
                     }
                 }
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 System.out.println("Broadcast thread error: " + ex);
             }
         }

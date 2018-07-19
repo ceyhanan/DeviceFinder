@@ -138,16 +138,15 @@ public class Device {
         
         try {
             socket = new DatagramSocket();
-        } catch (SocketException ex) {
+        } catch (Exception ex) {
             System.out.println("Error create datagram socket: " + ex);
         }
         try {
             packet = new DatagramPacket(SmartPackTxFrame, SmartPackTxFrame.length, InetAddress.getByName("255.255.255.255"), 31500);
             socket.send(packet);
-        } catch (IOException ex) {
-            System.out.println("Error broadcasting: " + ex);
+        } catch (Exception ex) {
+            System.out.println("sendCommand: Error sending packet: " + ex);
         }
-        socket.close();
     }
 
     public void changeIP(InetAddress ip) {
