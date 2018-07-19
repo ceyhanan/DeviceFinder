@@ -29,7 +29,6 @@ public class Device {
      */
     private DatagramSocket socket = null;
     private DatagramPacket packet;
-    private byte[] sendData;
     private byte[] SmartPackTxFrame;
     public LocalParameters localparams;
     public SocketParameters socketparams;
