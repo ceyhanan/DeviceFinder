@@ -69,6 +69,11 @@ public class DeviceFinder extends javax.swing.JFrame {
             }
         });
         jDeviceList.getTableHeader().setReorderingAllowed(false);
+        jDeviceList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jDeviceListMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jDeviceList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -113,6 +118,11 @@ public class DeviceFinder extends javax.swing.JFrame {
         // TODO add your handling code here:
         broadcast_thread.stop();
     }//GEN-LAST:event_formWindowClosed
+
+    private void jDeviceListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDeviceListMouseClicked
+        // TODO add your handling code here:
+        System.out.println(DeviceFinder.jDeviceList.getSelectedRow());
+    }//GEN-LAST:event_jDeviceListMouseClicked
 
     /**
      * @param args the command line arguments

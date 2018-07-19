@@ -82,23 +82,22 @@ public class Broadcaster implements Runnable {
         return packet.getLength() == 203;
     }
 
-    public void updataGUIList() {
+    public void updataGUIList() throws UnknownHostException {
         DefaultTableModel model = (DefaultTableModel) DeviceFinder.jDeviceList.getModel();
 
         model.setRowCount(0);
         for (int i = 0; i < deviceList.size(); i++) {
-            model.addRow(new Object[]{deviceList.get(i).localparams.DeviceHostName,
-                deviceList.get(i).localparams.IP,
+            model.addRow(new Object[]{new String(deviceList.get(i).localparams.DeviceHostName),
+                InetAddress.getByAddress(deviceList.get(i).localparams.IP),
                 deviceList.get(i).socketparams.HostPort,
-                deviceList.get(i).socketparams.RemoteIP,
+                InetAddress.getByAddress(deviceList.get(i).socketparams.RemoteIP),
                 deviceList.get(i).socketparams.RemotePort});
         }
     }
 
     @Override
     public void run() {
-        DefaultTableModel model = (DefaultTableModel) DeviceFinder.jDeviceList.getModel();
-        boolean isInList = false;
+        boolean isInList;
         int i;
 
         while (running) {
@@ -108,12 +107,7 @@ public class Broadcaster implements Runnable {
             try {
                 serverSocket.receive(receivePacket);
                 if (checkPacket(receivePacket)) {
-                    Device device = new Device(Arrays.copyOfRange(receivePacket.getData(), 26, 42),
-                            InetAddress.getByAddress(Arrays.copyOfRange(receivePacket.getData(), 78, 82)),
-                            InetAddress.getByAddress(Arrays.copyOfRange(receivePacket.getData(), 106, 110)),
-                            (receiveData[102] & 0xff) | ((receiveData[103] & 0xff) << 8),
-                            (receiveData[104] & 0xff) | ((receiveData[105] & 0xff) << 8),
-                            Arrays.copyOfRange(receivePacket.getData(), 10, 16));
+                    Device device = new Device(receivePacket);
                     if (deviceList.size() > 0) {
                         for (i = 0; i < deviceList.size(); i++) {
                             if (Arrays.equals(deviceList.get(i).localparams.MAC, device.localparams.MAC)) {
