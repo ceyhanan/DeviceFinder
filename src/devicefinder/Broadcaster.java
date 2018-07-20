@@ -33,7 +33,12 @@ public class Broadcaster implements Runnable {
         receiveData = new byte[250];
         deviceList = new LinkedList<>();
         thread = new Thread(this);
-        beginTime = System.currentTimeMillis();
+        System.out.println("Creating datagram socket...");
+        try {
+            serverSocket = new DatagramSocket();
+        } catch (SocketException ex) {
+            System.out.println("Error create datagram socket: " + ex);
+        }
         broadcast();
     }
 
@@ -55,17 +60,13 @@ public class Broadcaster implements Runnable {
         sendData[11] = 0x00;
         sendData[12] = (byte) 0xb0;
 
-        System.out.println("Creating datagram socket...");
-        try {
-            serverSocket = new DatagramSocket();
-        } catch (SocketException ex) {
-            System.out.println("Error create datagram socket: " + ex);
-        }
-
         System.out.println("Broadcasting to devices...");
         try {
+            deviceList.clear();
+            updateGUIList();
             sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), 31500);
             serverSocket.send(sendPacket);
+            beginTime = System.currentTimeMillis();
         } catch (UnknownHostException ex) {
             System.out.println("Error broadcasting: " + ex);
         }
@@ -92,13 +93,16 @@ public class Broadcaster implements Runnable {
         DefaultTableModel model = (DefaultTableModel) DeviceFinder.jDeviceList.getModel();
 
         model.setRowCount(0);
-        for (int i = 0; i < deviceList.size(); i++) {
-            model.addRow(new Object[]{new String(deviceList.get(i).localparams.DeviceHostName),
-                InetAddress.getByAddress(deviceList.get(i).localparams.IP),
-                deviceList.get(i).socketparams.HostPort,
-                InetAddress.getByAddress(deviceList.get(i).socketparams.RemoteIP),
-                deviceList.get(i).socketparams.RemotePort,
-            Long.toUnsignedString(deviceList.get(i).latency) + "ms"});
+        DeviceFinder.jLabel12.setText(Integer.toUnsignedString(deviceList.size()));
+        if (deviceList.isEmpty() == false) {
+            for (int i = 0; i < deviceList.size(); i++) {
+                model.addRow(new Object[]{new String(deviceList.get(i).localparams.DeviceHostName),
+                    InetAddress.getByAddress(deviceList.get(i).localparams.IP),
+                    deviceList.get(i).socketparams.HostPort,
+                    InetAddress.getByAddress(deviceList.get(i).socketparams.RemoteIP),
+                    deviceList.get(i).socketparams.RemotePort,
+                    Long.toUnsignedString(deviceList.get(i).latency) + "ms"});
+            }
         }
     }
 
