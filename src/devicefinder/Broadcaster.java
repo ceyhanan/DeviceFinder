@@ -175,14 +175,16 @@ public class Broadcaster implements Runnable {
         Device tmpdevice;
 
         try {
-            tmpdevice = deviceList.get(activeDevice);
+            if (deviceList.isEmpty() == false) {
+                tmpdevice = deviceList.get(activeDevice);
 
-            tmpdevice.localparams.SubnetMask = InetAddress.getByName(DeviceFinder.getSubnetText()).getAddress();
-            tmpdevice.localparams.GatewayIP = InetAddress.getByName(DeviceFinder.getGatewayText()).getAddress();
-            tmpdevice.localparams.PrimaryDNS = InetAddress.getByName(DeviceFinder.getDNS1Text()).getAddress();
-            tmpdevice.localparams.SecondaryDNS = InetAddress.getByName(DeviceFinder.getDNS2Text()).getAddress();
+                tmpdevice.localparams.SubnetMask = InetAddress.getByName(DeviceFinder.getSubnetText()).getAddress();
+                tmpdevice.localparams.GatewayIP = InetAddress.getByName(DeviceFinder.getGatewayText()).getAddress();
+                tmpdevice.localparams.PrimaryDNS = InetAddress.getByName(DeviceFinder.getDNS1Text()).getAddress();
+                tmpdevice.localparams.SecondaryDNS = InetAddress.getByName(DeviceFinder.getDNS2Text()).getAddress();
 
-            tmpdevice.changeIP(InetAddress.getByName(DeviceFinder.getIPText()));
+                tmpdevice.changeIP(InetAddress.getByName(DeviceFinder.getIPText()));
+            }
         } catch (Exception e) {
             System.out.println("saveLocalParams2Device error: " + e);
         }
@@ -192,12 +194,14 @@ public class Broadcaster implements Runnable {
         Device tmpdevice;
 
         try {
-            tmpdevice = deviceList.get(activeDevice);
+            if (deviceList.isEmpty() == false) {
+                tmpdevice = deviceList.get(activeDevice);
 
-            tmpdevice.socketparams.HostPort = Integer.parseUnsignedInt(DeviceFinder.getPortText());
-            tmpdevice.socketparams.RemotePort = Integer.parseUnsignedInt(DeviceFinder.getRemotePortText());
+                tmpdevice.socketparams.HostPort = Integer.parseUnsignedInt(DeviceFinder.getPortText());
+                tmpdevice.socketparams.RemotePort = Integer.parseUnsignedInt(DeviceFinder.getRemotePortText());
 
-            tmpdevice.changeRemoteIP(InetAddress.getByName(DeviceFinder.getRemoteIPText()));
+                tmpdevice.changeRemoteIP(InetAddress.getByName(DeviceFinder.getRemoteIPText()));
+            }
         } catch (Exception e) {
             System.out.println("saveSocketParams2Device error: " + e);
         }
