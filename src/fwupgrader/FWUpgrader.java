@@ -9,6 +9,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
@@ -236,18 +239,32 @@ public class FWUpgrader extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void upgradeFw(){
-        if(fwFile != null){
-            try{
-            fr = new FileReader(fwFile);
-            }
-            catch(FileNotFoundException e){
-                System.out.println("File read error: " + e);
-            }
-            br = new BufferedReader(fr);
+    private void upgradeFw() {
+        if (fwFile != null) {
+            Thread th = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        fr = new FileReader(fwFile);
+                    } catch (FileNotFoundException ex) {
+                        System.out.println("File read error: " + ex);
+                    }
+                    br = new BufferedReader(fr);
+                    String line;
+
+                    try {
+                        while ((line = br.readLine()) != null) {
+                            System.out.println(line);
+                        }
+                    } catch (IOException ex) {
+                        System.out.println("File read error: " + ex);
+                    }
+                }
+            });
+            th.start();
         }
     }
-    
+
     private JFileChooser openFileChooser() {
         // TODO add your handling code here:
         fc = new JFileChooser();
