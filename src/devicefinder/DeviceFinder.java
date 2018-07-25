@@ -5,6 +5,7 @@
  */
 package devicefinder;
 
+import fwupgrader.FWUpgrader;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 public class DeviceFinder extends javax.swing.JFrame {
 
     Broadcaster broadcast_thread = null;
+    FWUpgrader fwu = null;
 
     /**
      * Creates new form DeviceFinder
@@ -64,6 +66,7 @@ public class DeviceFinder extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Teknotolya Device Finder");
@@ -258,6 +261,13 @@ public class DeviceFinder extends javax.swing.JFrame {
 
         jLabel13.setText("Bu program Kazım ŞEKERCİ'nin üstün gayretlerine atfen yazılmıştır. Ceyhan ANKITCI");
 
+        jButton4.setText("Yazılım Güncelleme");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -275,7 +285,8 @@ public class DeviceFinder extends javax.swing.JFrame {
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel12))
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -297,6 +308,8 @@ public class DeviceFinder extends javax.swing.JFrame {
                             .addComponent(jLabel11)
                             .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -311,8 +324,7 @@ public class DeviceFinder extends javax.swing.JFrame {
             // TODO add your handling code here:
             if (broadcast_thread == null) {
                 broadcast_thread = new Broadcaster();
-            }
-            else{
+            } else {
                 broadcast_thread.broadcast();
             }
             broadcast_thread.start();
@@ -352,6 +364,13 @@ public class DeviceFinder extends javax.swing.JFrame {
             Logger.getLogger(DeviceFinder.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+
+        System.out.println("FW upgrader clicked");
+        fwu = new FWUpgrader();
+        fwu.start();
+    }//GEN-LAST:event_jButton4MouseClicked
 
     public static void setIPText(String text) {
         jTextField2.setText(text);
@@ -475,6 +494,7 @@ public class DeviceFinder extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     public static javax.swing.JTable jDeviceList;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

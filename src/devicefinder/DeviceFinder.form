@@ -43,6 +43,7 @@
                               <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jButton1" alignment="0" pref="281" max="32767" attributes="0"/>
+                          <Component id="jButton4" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
@@ -71,6 +72,8 @@
                           <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jButton4" min="-2" pref="37" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButton1" min="-2" pref="35" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jPanel2" alignment="1" max="32767" attributes="0"/>
@@ -456,6 +459,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Bu program Kaz&#x131;m &#x15e;EKERC&#x130;&apos;nin &#xfc;st&#xfc;n gayretlerine atfen yaz&#x131;lm&#x131;&#x15f;t&#x131;r. Ceyhan ANKITCI"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Yaz&#x131;l&#x131;m G&#xfc;ncelleme"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton4MouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
