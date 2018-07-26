@@ -10,6 +10,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -239,29 +244,76 @@ public class FWUpgrader extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private class Upgrader implements Runnable {
+
+        private Thread th;
+        private DatagramSocket socket;
+        private byte[] receiveData;
+        private byte[] sendData;
+        private DatagramPacket sendPacket;
+
+        public Upgrader() {
+            th = new Thread(this);
+            receiveData = new byte[50];
+            try {
+                socket = new DatagramSocket(Integer.parseInt(jTextField3.getText()));
+            } catch (SocketException ex) {
+                System.out.println("Upgrade socket create error: " + ex);
+            }
+        }
+
+        @Override
+        public void run() {
+            String line;
+
+            try {
+                fr = new FileReader(fwFile);
+            } catch (FileNotFoundException ex) {
+                System.out.println("File read error: " + ex);
+            }
+            br = new BufferedReader(fr);
+
+            sendData = new byte[6];
+
+            sendData[0] = 0x02;
+            sendData[1] = 'A';
+            sendData[2] = '6';
+            sendData[3] = '7';
+            sendData[4] = '7';
+            sendData[5] = 0x03;
+
+            try {
+                sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(jTextField1.getText()), Integer.parseInt(jTextField2.getText()));
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(FWUpgrader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                
+                socket.send(sendPacket);
+                
+            } catch (IOException ex) {
+                Logger.getLogger(FWUpgrader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                while ((line = br.readLine()) != null) {
+
+                }
+            } catch (IOException ex) {
+                System.out.println("File read error: " + ex);
+            }
+        }
+
+        public void start() {
+            th.start();
+        }
+    }
+
     private void upgradeFw() {
         if (fwFile != null) {
-            Thread th = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        fr = new FileReader(fwFile);
-                    } catch (FileNotFoundException ex) {
-                        System.out.println("File read error: " + ex);
-                    }
-                    br = new BufferedReader(fr);
-                    String line;
-
-                    try {
-                        while ((line = br.readLine()) != null) {
-                            System.out.println(line);
-                        }
-                    } catch (IOException ex) {
-                        System.out.println("File read error: " + ex);
-                    }
-                }
-            });
-            th.start();
+            Upgrader upgraderThread = new Upgrader();
+            upgraderThread.start();
         }
     }
 
