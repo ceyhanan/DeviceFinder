@@ -67,6 +67,7 @@ public class DeviceFinder extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jTextField12 = new javax.swing.JTextField();
+        jTextField11 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Teknotolya Device Finder");
@@ -270,8 +271,14 @@ public class DeviceFinder extends javax.swing.JFrame {
         });
 
         jTextField12.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField12KeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField12KeyReleased(evt);
+            }
+        });
+
+        jTextField11.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField11KeyReleased(evt);
             }
         });
 
@@ -297,6 +304,8 @@ public class DeviceFinder extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(113, 113, 113)
+                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -304,7 +313,9 @@ public class DeviceFinder extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(7, 7, 7)
-                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -378,10 +389,15 @@ public class DeviceFinder extends javax.swing.JFrame {
         fwu.start();
     }//GEN-LAST:event_jButton4MouseClicked
 
-    private void jTextField12KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField12KeyTyped
+    private void jTextField12KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField12KeyReleased
         // TODO add your handling code here:
-        broadcast_thread.filter_by_host_name(jTextField12.getText());
-    }//GEN-LAST:event_jTextField12KeyTyped
+        broadcast_thread.setHostnameFilter(jTextField12.getText());
+    }//GEN-LAST:event_jTextField12KeyReleased
+
+    private void jTextField11KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField11KeyReleased
+        // TODO add your handling code here:
+        broadcast_thread.setDeviceIPFilter(jTextField11.getText());
+    }//GEN-LAST:event_jTextField11KeyReleased
 
     public static void setIPText(String text) {
         jTextField2.setText(text);
@@ -524,6 +540,7 @@ public class DeviceFinder extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JTextField jTextField1;
     private static javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
     private static javax.swing.JTextField jTextField2;
     private static javax.swing.JTextField jTextField3;
