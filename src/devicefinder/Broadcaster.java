@@ -25,6 +25,7 @@ public class Broadcaster implements Runnable {
     private byte[] receiveData;
     private boolean running = false;
     private final Thread thread;
+    private String hostnameFilter;
     LinkedList<Device> deviceList;
     int activeDevice;
     long beginTime;
@@ -96,14 +97,29 @@ public class Broadcaster implements Runnable {
         DeviceFinder.jLabel12.setText(Integer.toUnsignedString(deviceList.size()));
         if (deviceList.isEmpty() == false) {
             for (int i = 0; i < deviceList.size(); i++) {
-                model.addRow(new Object[]{new String(deviceList.get(i).localparams.DeviceHostName),
-                    InetAddress.getByAddress(deviceList.get(i).localparams.IP),
-                    deviceList.get(i).socketparams.HostPort,
-                    InetAddress.getByAddress(deviceList.get(i).socketparams.RemoteIP),
-                    deviceList.get(i).socketparams.RemotePort,
-                    Long.toUnsignedString(deviceList.get(i).latency) + "ms"});
+                if (hostnameFilter.length() == 0) {
+                    model.addRow(new Object[]{new String(deviceList.get(i).localparams.DeviceHostName),
+                        InetAddress.getByAddress(deviceList.get(i).localparams.IP),
+                        deviceList.get(i).socketparams.HostPort,
+                        InetAddress.getByAddress(deviceList.get(i).socketparams.RemoteIP),
+                        deviceList.get(i).socketparams.RemotePort,
+                        Long.toUnsignedString(deviceList.get(i).latency) + "ms"});
+                } else {
+                    if (deviceList.get(i).localparams.DeviceHostName.toString().matches(hostnameFilter)) {
+                        model.addRow(new Object[]{new String(deviceList.get(i).localparams.DeviceHostName),
+                            InetAddress.getByAddress(deviceList.get(i).localparams.IP),
+                            deviceList.get(i).socketparams.HostPort,
+                            InetAddress.getByAddress(deviceList.get(i).socketparams.RemoteIP),
+                            deviceList.get(i).socketparams.RemotePort,
+                            Long.toUnsignedString(deviceList.get(i).latency) + "ms"});
+                    }
+                }
             }
         }
+    }
+
+    void filter_by_host_name(String text) {
+        hostnameFilter = text;
     }
 
     public void setActiveDevice(int num) {
