@@ -6,6 +6,7 @@
 package devicefinder;
 
 import fwupgrader.FWUpgrader;
+import devicesockettester.DeviceSocketTesterForm;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -19,6 +20,7 @@ public class DeviceFinder extends javax.swing.JFrame {
 
     Broadcaster broadcast_thread = null;
     FWUpgrader fwu = null;
+    DeviceSocketTesterForm deviceSocketTester = null;
 
     /**
      * Creates new form DeviceFinder
@@ -68,6 +70,11 @@ public class DeviceFinder extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jTextField12 = new javax.swing.JTextField();
         jTextField11 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckBox3 = new javax.swing.JCheckBox();
+        jTextField13 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Teknotolya Device Finder");
@@ -282,6 +289,43 @@ public class DeviceFinder extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setText("Socket Testi");
+        jButton5.setMaximumSize(new java.awt.Dimension(89, 23));
+        jButton5.setMinimumSize(new java.awt.Dimension(89, 23));
+        jButton5.setPreferredSize(new java.awt.Dimension(89, 23));
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
+
+        jCheckBox1.setText("Hostname Filtrele");
+        jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox1İtemStateChanged(evt);
+            }
+        });
+
+        jCheckBox2.setText("Device IP Filtrele");
+        jCheckBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox2İtemStateChanged(evt);
+            }
+        });
+
+        jCheckBox3.setText("Remote IP Filtrele");
+        jCheckBox3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox3İtemStateChanged(evt);
+            }
+        });
+
+        jTextField13.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField13KeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -299,24 +343,37 @@ public class DeviceFinder extends javax.swing.JFrame {
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel12))
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(113, 113, 113)
-                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCheckBox1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBox2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBox3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(7, 7, 7)
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox2)
+                    .addComponent(jCheckBox3)
+                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -325,12 +382,14 @@ public class DeviceFinder extends javax.swing.JFrame {
                             .addComponent(jLabel11)
                             .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -391,13 +450,61 @@ public class DeviceFinder extends javax.swing.JFrame {
 
     private void jTextField12KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField12KeyReleased
         // TODO add your handling code here:
-        broadcast_thread.setHostnameFilter(jTextField12.getText());
+        if (jCheckBox1.isSelected()) {
+            broadcast_thread.setHostnameFilter(jTextField12.getText());
+        }
     }//GEN-LAST:event_jTextField12KeyReleased
 
     private void jTextField11KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField11KeyReleased
         // TODO add your handling code here:
-        broadcast_thread.setDeviceIPFilter(jTextField11.getText());
+        if (jCheckBox2.isSelected()) {
+            broadcast_thread.setDeviceIPFilter(jTextField11.getText());
+        }
     }//GEN-LAST:event_jTextField11KeyReleased
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        // TODO add your handling code here:
+        System.out.println("Socket tester clicked");
+        deviceSocketTester = new DeviceSocketTesterForm();
+        deviceSocketTester.start();
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    private void jTextField13KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField13KeyReleased
+        // TODO add your handling code here:
+        if (jCheckBox3.isSelected()) {
+            broadcast_thread.setRemoteIPFilter(jTextField13.getText());
+        }
+    }//GEN-LAST:event_jTextField13KeyReleased
+
+    private void jCheckBox3İtemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox3İtemStateChanged
+        // TODO add your handling code here:
+        if (jCheckBox3.isSelected()) {
+            broadcast_thread.setRemoteIPFilter(jTextField13.getText());
+        }
+        else{
+            broadcast_thread.setRemoteIPFilter("");
+        }
+    }//GEN-LAST:event_jCheckBox3İtemStateChanged
+
+    private void jCheckBox2İtemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox2İtemStateChanged
+        // TODO add your handling code here:
+        if (jCheckBox2.isSelected()) {
+            broadcast_thread.setDeviceIPFilter(jTextField11.getText());
+        }
+        else{
+            broadcast_thread.setDeviceIPFilter("");
+        }
+    }//GEN-LAST:event_jCheckBox2İtemStateChanged
+
+    private void jCheckBox1İtemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1İtemStateChanged
+        // TODO add your handling code here:
+        if (jCheckBox1.isSelected()) {
+            broadcast_thread.setHostnameFilter(jTextField12.getText());
+        }
+        else{
+            broadcast_thread.setHostnameFilter("");
+        }
+    }//GEN-LAST:event_jCheckBox1İtemStateChanged
 
     public static void setIPText(String text) {
         jTextField2.setText(text);
@@ -522,6 +629,10 @@ public class DeviceFinder extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
     public static javax.swing.JTable jDeviceList;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -542,6 +653,7 @@ public class DeviceFinder extends javax.swing.JFrame {
     private static javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
     private static javax.swing.JTextField jTextField2;
     private static javax.swing.JTextField jTextField3;
     private static javax.swing.JTextField jTextField4;
