@@ -59,7 +59,7 @@ public class DeviceSocketTesterForm extends javax.swing.JFrame {
 
         jLabel3.setText("Sunucu Port");
 
-        jTextField1.setText("192.168.1.203");
+        jTextField1.setText("192.168.1.219");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -68,7 +68,7 @@ public class DeviceSocketTesterForm extends javax.swing.JFrame {
 
         jTextField2.setText("6001");
 
-        jTextField3.setText("8007");
+        jTextField3.setText("8006");
 
         jButton2.setText("Başlat");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
