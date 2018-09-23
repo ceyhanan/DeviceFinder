@@ -25,6 +25,7 @@ public class Device {
     int remote_port;
     byte[] mac;
      */
+    public boolean active;
     private DatagramSocket socket = null;
     private DatagramPacket packet, packet1;
     private byte[] SmartPackTxFrame;
@@ -74,6 +75,8 @@ public class Device {
     public Device(byte[] hostName, InetAddress device_ip, InetAddress remote_ip, int device_port, int remote_port, byte[] mac) {
         localparams = new LocalParameters();
         socketparams = new SocketParameters();
+        
+        active = true;
 
         localparams.DeviceHostName = hostName;
         localparams.IP = device_ip.getAddress();
@@ -86,6 +89,8 @@ public class Device {
     public Device(DatagramPacket whoisPacket) throws UnknownHostException {
         localparams = new LocalParameters();
         socketparams = new SocketParameters();
+        
+        active = true;
         
         localparams.MAC = Arrays.copyOfRange(whoisPacket.getData(), 10, 16);
         localparams.DeviceHostName = Arrays.copyOfRange(whoisPacket.getData(), 26, 42);

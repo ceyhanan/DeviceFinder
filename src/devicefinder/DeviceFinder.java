@@ -114,6 +114,11 @@ public class DeviceFinder extends javax.swing.JFrame {
                 jDeviceListMouseClicked(evt);
             }
         });
+        jDeviceList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jDeviceListKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jDeviceList);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Socket Parameters"));
@@ -505,6 +510,11 @@ public class DeviceFinder extends javax.swing.JFrame {
             broadcast_thread.setHostnameFilter("");
         }
     }//GEN-LAST:event_jCheckBox1İtemStateChanged
+
+    private void jDeviceListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jDeviceListKeyReleased
+        // TODO add your handling code here:
+        broadcast_thread.setActiveDevice(jDeviceList.getSelectedRow());
+    }//GEN-LAST:event_jDeviceListKeyReleased
 
     public static void setIPText(String text) {
         jTextField2.setText(text);

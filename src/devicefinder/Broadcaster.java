@@ -135,6 +135,7 @@ public class Broadcaster implements Runnable {
             for (int i = 0; i < deviceList.size(); i++) {
                 if ((hostnameFilter.length() > 0) || (deviceIPFilter.length() > 0) || (remoteIPFilter.length() > 0)) {
                     if ((hostnameFilter.length() > 0) && new String(deviceList.get(i).localparams.DeviceHostName).toUpperCase().matches(".*" + hostnameFilter + ".*")) {
+                        deviceList.get(i).active = true;
                         System.out.println("Hostname filter matched!");
                         model.addRow(new Object[]{new String(deviceList.get(i).localparams.DeviceHostName),
                             InetAddress.getByAddress(deviceList.get(i).localparams.IP),
@@ -143,6 +144,7 @@ public class Broadcaster implements Runnable {
                             deviceList.get(i).socketparams.RemotePort,
                             Long.toUnsignedString(deviceList.get(i).latency) + "ms"});
                     } else if ((deviceIPFilter.length() > 0) && InetAddress.getByAddress(deviceList.get(i).localparams.IP).toString().matches(".*" + deviceIPFilter + ".*")) {
+                        deviceList.get(i).active = true;
                         model.addRow(new Object[]{new String(deviceList.get(i).localparams.DeviceHostName),
                             InetAddress.getByAddress(deviceList.get(i).localparams.IP),
                             deviceList.get(i).socketparams.HostPort,
@@ -150,14 +152,18 @@ public class Broadcaster implements Runnable {
                             deviceList.get(i).socketparams.RemotePort,
                             Long.toUnsignedString(deviceList.get(i).latency) + "ms"});
                     } else if ((remoteIPFilter.length() > 0) && InetAddress.getByAddress(deviceList.get(i).socketparams.RemoteIP).toString().matches(".*" + remoteIPFilter + ".*")) {
+                        deviceList.get(i).active = true;
                         model.addRow(new Object[]{new String(deviceList.get(i).localparams.DeviceHostName),
                             InetAddress.getByAddress(deviceList.get(i).localparams.IP),
                             deviceList.get(i).socketparams.HostPort,
                             InetAddress.getByAddress(deviceList.get(i).socketparams.RemoteIP),
                             deviceList.get(i).socketparams.RemotePort,
                             Long.toUnsignedString(deviceList.get(i).latency) + "ms"});
+                    } else {
+                        deviceList.get(i).active = false;
                     }
                 } else {
+                    deviceList.get(i).active = true;
                     model.addRow(new Object[]{new String(deviceList.get(i).localparams.DeviceHostName),
                         InetAddress.getByAddress(deviceList.get(i).localparams.IP),
                         deviceList.get(i).socketparams.HostPort,
@@ -171,8 +177,17 @@ public class Broadcaster implements Runnable {
 
     public void setActiveDevice(int num) {
         String str;
-        activeDevice = num;
         Device tmpdevice;
+
+        for (int i = 0, j = 0; i < deviceList.size(); i++) {
+            if (deviceList.get(i).active == true) {
+                if (j == num) {
+                    activeDevice = i;
+                    break;
+                }
+                j++;
+            }
+        }
 
         try {
             tmpdevice = deviceList.get(activeDevice);
